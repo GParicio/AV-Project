@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class CameraMovement : MonoBehaviour
 {
     // Start is called before the first frame update
     public float mouseSensitivity = 100f;
     float xRotation = 0f;
     float yRotation = 0f;
+
+    public float topClamp = 90f;
+    public float bottomClamp = -90f;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -22,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
         //Rotating the player
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, bottomClamp, topClamp);
         yRotation += mouseX;
         transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
