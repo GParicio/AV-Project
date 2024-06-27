@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
     bool isMoving;
+    int NJumped;
     private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
     void Start()
     {
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+            NJumped = 0;
         }
 
         //Getting the inputs
@@ -45,6 +47,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            NJumped++;
+        }
+
+        if (Input.GetButtonDown("Jump") && !isGrounded && NJumped < 2)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            NJumped++;
         }
 
         //Falling down
