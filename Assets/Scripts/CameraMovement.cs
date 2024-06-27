@@ -9,8 +9,8 @@ public class CameraMovement : MonoBehaviour
     float xRotation = 0f;
     float yRotation = 0f;
 
-    public float topClamp = 90f;
-    public float bottomClamp = -90f;
+    public float topClamp = 89f;
+    public float bottomClamp = -89;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;

@@ -39,8 +39,12 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        //Creating the moving vector
-        Vector3 move = transform.right * x + transform.forward * z;
+        // Extract horizontal components of right and forward vectors (ignore y-axis)
+        Vector3 horizontalRight = new Vector3(transform.right.x, 0, transform.right.z).normalized;
+        Vector3 horizontalForward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
+
+        // Creating the moving vector using horizontal components
+        Vector3 move = horizontalRight * x + horizontalForward * z;
         controller.Move(move * speed * Time.deltaTime);
 
         //Check if the player can jump
