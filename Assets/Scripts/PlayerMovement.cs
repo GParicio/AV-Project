@@ -9,9 +9,10 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f * 2f;
     public float jumpHeight = 3f;
 
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
+    //public Transform groundCheck;
+    //public float groundDistance = 0.4f;
+    //public LayerMask groundMask;
+    //unused variables from the manual isGrounded check
 
     Vector3 velocity;
     bool isGrounded;
@@ -27,12 +28,13 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // ground check
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        isGrounded = controller.isGrounded; //Check if the player is grounded with the CharacterController method
         //Resseting the default velocity
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;
-            NJumped = 0;
+            velocity.y = -2f;   //Resetting the velocity
+            NJumped = 0;    //Resetting the number of jumps
         }
 
         //Getting the inputs
