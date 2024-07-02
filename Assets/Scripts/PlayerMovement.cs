@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
     bool isMoving;
     int NJumped;
+    public float dashSpeed = 20f; // Speed of the dash
+    public float dashTime = 0.2f; // How long the dash lasts
+    private bool isDashing = false; // To check if the player is currently dashing
     private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
     void Start()
     {
@@ -62,6 +65,26 @@ public class PlayerMovement : MonoBehaviour
             NJumped++;
         }
 
+        //Dash when pressing E
+        if (Input.GetKeyDown(KeyCode.E) && !isDashing)
+        {
+            StartCoroutine(Dash()); //I should encapsulate all of this mess
+        }
+
+        IEnumerator Dash()
+        {
+            float startTime = Time.time; // Remember the time when the dash started
+            isDashing = true;
+        
+            while (Time.time < startTime + dashTime)
+            {
+                controller.Move(move * dashSpeed * Time.deltaTime); // Move the player at dash speed
+                yield return null; // Wait for the next frame
+            }
+        
+            isDashing = false;
+        }
+
         //Falling down
         velocity.y += gravity * Time.deltaTime;
 
@@ -79,4 +102,5 @@ public class PlayerMovement : MonoBehaviour
 
         lastPosition = gameObject.transform.position;
     }
+    
 }
