@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
     public float dashTime = 0.2f; // How long the dash lasts
     private bool isDashing = false; // To check if the player is currently dashing
     private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
+    public float dashCooldown = 2f; // Cooldown duration in seconds
+    private float lastDashTime = -Mathf.Infinity; // Initialize to a very early time
+    public TextMeshProUGUI dashCooldownText; // Assign this in the Inspector
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -66,13 +70,24 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Dash when pressing E
-        if (Input.GetKeyDown(KeyCode.E) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.E) && !isDashing && Time.time >= lastDashTime + dashCooldown)
         {
             StartCoroutine(Dash()); //I should encapsulate all of this mess
         }
 
+        if (!isDashing && Time.time < lastDashTime + dashCooldown)
+        {
+            dashCooldownText.enabled = true;
+            dashCooldownText.text = "Dash Ready in: " + Mathf.Ceil(lastDashTime + dashCooldown - Time.time).ToString();
+        }
+        else
+        {
+            dashCooldownText.enabled = false;
+        }
+
         IEnumerator Dash()
         {
+            lastDashTime = Time.time; // Mark the start of the dash
             float startTime = Time.time; // Remember the time when the dash started
             isDashing = true;
         

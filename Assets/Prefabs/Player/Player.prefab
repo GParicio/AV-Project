@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 942cae2bb6835464b8060d52be8352c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 100
+  mouseSensitivity: 250
   topClamp: 90
   bottomClamp: -90
 --- !u!114 &7904316836973528028
@@ -68,11 +68,8 @@ MonoBehaviour:
   speed: 12
   gravity: -19.62
   jumpHeight: 3
-  groundCheck: {fileID: 3276837850899174679}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
+  dashSpeed: 20
+  dashTime: 0.2
 --- !u!143 &96060452019337069
 CharacterController:
   m_ObjectHideFlags: 0
