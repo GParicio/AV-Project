@@ -26,6 +26,12 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldown = 2f; // Cooldown duration in seconds
     private float lastDashTime = -Mathf.Infinity; // Initialize to a very early time
     public TextMeshProUGUI dashCooldownText; // Assign this in the Inspector
+    public float fallLimitY = -50;
+    public AudioClip fallSound;
+    public AudioClip[] knifeAttackSounds;
+    public GameObject flashlight;
+    private bool playerFell = false;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -42,6 +48,29 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;   //Resetting the velocity
             NJumped = 0;    //Resetting the number of jumps
+        }
+
+        // Check if player is below -50 on the y axis
+        if (transform.position.y < fallLimitY)
+        {
+            controller.enabled = false;
+            transform.position = new Vector3(0, 30, 0);
+            controller.enabled = true;
+            //play a sfx
+            // Play sound effect
+            playerFell = true;
+        }
+
+        if (playerFell && transform.position.y < 10)
+        {
+            AudioSource.PlayClipAtPoint(fallSound, transform.position);
+            playerFell = false;
+        }
+
+        //Toggle flashlight
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            flashlight.SetActive(!flashlight.activeSelf);
         }
 
         //Getting the inputs
@@ -85,19 +114,36 @@ public class PlayerMovement : MonoBehaviour
             dashCooldownText.enabled = false;
         }
 
+        //Mouse1 to attack with knife
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Attack with knife
+            //Debug.Log("Attacking with knife");
+            int randomIndex = Random.Range(0, 2);
+            AudioSource.PlayClipAtPoint(knifeAttackSounds[randomIndex], transform.position);
+            //randomize the attack sound
+            
+        }
+
         IEnumerator Dash()
         {
             lastDashTime = Time.time; // Mark the start of the dash
             float startTime = Time.time; // Remember the time when the dash started
             isDashing = true;
-        
             while (Time.time < startTime + dashTime)
             {
                 controller.Move(move * dashSpeed * Time.deltaTime); // Move the player at dash speed
                 yield return null; // Wait for the next frame
             }
-        
+
             isDashing = false;
+        }
+
+        IEnumerator Wait1()
+        {
+            Debug.Log("before");
+            yield return new WaitForSeconds(1);
+            Debug.Log("after");
         }
 
         //Falling down
@@ -106,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         //Executing the jump
         controller.Move(velocity * Time.deltaTime);
 
-        if(lastPosition != transform.position)
+        if (lastPosition != transform.position)
         {
             isMoving = true;
         }
@@ -117,5 +163,5 @@ public class PlayerMovement : MonoBehaviour
 
         lastPosition = gameObject.transform.position;
     }
-    
+
 }
