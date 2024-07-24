@@ -3807,6 +3807,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 229308920}
     - target: {fileID: 7904316836973528028, guid: abbb97ed3bec11e4da3259f905197d5e, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 2135746804}
+    - target: {fileID: 7904316836973528028, guid: abbb97ed3bec11e4da3259f905197d5e, type: 3}
       propertyPath: groundDistance
       value: 0.8
       objectReference: {fileID: 0}
@@ -4729,6 +4733,11 @@ MonoBehaviour:
   _PostProcessShaderAccurate: {fileID: 4800000, guid: 2ebed186567d3c244a87538744a62920, type: 3}
   _PixelationShader: {fileID: 4800000, guid: f2da0e2a14a532548b5db043244b3df1, type: 3}
   _InterlacingShader: {fileID: 4800000, guid: 03ebd34214b41ef459d7ee6753b062be, type: 3}
+--- !u!20 &2135746804 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1581352411846367100, guid: abbb97ed3bec11e4da3259f905197d5e, type: 3}
+  m_PrefabInstance: {fileID: 1585460511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2145038561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 06edbc22838c87e479cb06fa659fe53e, type: 3}

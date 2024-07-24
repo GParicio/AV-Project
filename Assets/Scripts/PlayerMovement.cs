@@ -5,6 +5,8 @@ using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private const int fovZoom = 40;
+    private const int fovNoZoom = 90;
     private CharacterController controller;
     public float speed = 12f;
     public float gravity = -9.81f * 2f;
@@ -30,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip fallSound;
     public AudioClip[] knifeAttackSounds;
     public GameObject flashlight;
+    public Camera playerCamera;
     private bool playerFell = false;
 
     void Start()
@@ -102,6 +105,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !isDashing && Time.time >= lastDashTime + dashCooldown)
         {
             StartCoroutine(Dash()); //I should encapsulate all of this mess
+        }
+        //When holding down right click
+        if(Input.GetMouseButtonDown(1))
+        {
+            playerCamera.fieldOfView = fovZoom;
+        }
+        else if(Input.GetMouseButtonUp(1))
+        {
+            playerCamera.fieldOfView = fovNoZoom;
         }
 
         if (!isDashing && Time.time < lastDashTime + dashCooldown)
